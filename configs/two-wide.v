@@ -1,20 +1,20 @@
 /*******************************************************************************
-#                        NORTH CAROLINA STATE UNIVERSITY
-#
-#                              AnyCore Project
-# 
-# AnyCore written by NCSU authors Rangeen Basu Roy Chowdhury and Eric Rotenberg.
-# 
-# AnyCore is based on FabScalar which was written by NCSU authors Niket K. 
-# Choudhary, Brandon H. Dwiel, and Eric Rotenberg.
-# 
-# AnyCore also includes contributions by NCSU authors Elliott Forbes, Jayneel 
-# Gandhi, Anil Kumar Kannepalli, Sungkwan Ku, Hiran Mayukh, Hashem Hashemi 
-# Najaf-abadi, Sandeep Navada, Tanmay Shah, Ashlesha Shastri, Vinesh Srinivasan, 
-# and Salil Wadhavkar.
-# 
-# AnyCore is distributed under the BSD license.
-*******************************************************************************/
+ #                        NORTH CAROLINA STATE UNIVERSITY
+ #
+ #                              AnyCore Project
+ # 
+ # AnyCore written by NCSU authors Rangeen Basu Roy Chowdhury and Eric Rotenberg.
+ # 
+ # AnyCore is based on FabScalar which was written by NCSU authors Niket K. 
+ # Choudhary, Brandon H. Dwiel, and Eric Rotenberg.
+ # 
+ # AnyCore also includes contributions by NCSU authors Elliott Forbes, Jayneel 
+ # Gandhi, Anil Kumar Kannepalli, Sungkwan Ku, Hiran Mayukh, Hashem Hashemi 
+ # Najaf-abadi, Sandeep Navada, Tanmay Shah, Ashlesha Shastri, Vinesh Srinivasan, 
+ # and Salil Wadhavkar.
+ # 
+ # AnyCore is distributed under the BSD license.
+ *******************************************************************************/
 
 `timescale 1ns/100ps
 
@@ -125,30 +125,30 @@
 `define N_REPAIR_PACKETS        (34 + `N_REPAIR_CYCLES - 1)/`N_REPAIR_CYCLES // Note: this is ceil(34/N_REPAIR_CYCLES)
 
 `ifdef USE_VPI
-`define GET_ARCH_PC             $getArchPC()
-`define READ_OPCODE(a)          $read_opcode(a)
-`define READ_OPERAND(a)         $read_operand(a)
-`define READ_SIGNED_BYTE(a)     $readSignedByte(a)
-`define READ_UNSIGNED_BYTE(a)   $readUnsignedByte(a)
-`define READ_SIGNED_HALF(a)     $readSignedHalf(a)
-`define READ_UNSIGNED_HALF(a)   $readUnsignedHalf(a)
-`define READ_WORD(a)            $readWord(a)
-`define WRITE_BYTE(a,b)         $writeByte(a,b)
-`define WRITE_HALF(a,b)         $writeHalf(a,b)
-`define WRITE_WORD(a,b)         $writeWord(a,b)
+ `define GET_ARCH_PC             $getArchPC()
+ `define READ_OPCODE(a)          $read_opcode(a)
+ `define READ_OPERAND(a)         $read_operand(a)
+ `define READ_SIGNED_BYTE(a)     $readSignedByte(a)
+ `define READ_UNSIGNED_BYTE(a)   $readUnsignedByte(a)
+ `define READ_SIGNED_HALF(a)     $readSignedHalf(a)
+ `define READ_UNSIGNED_HALF(a)   $readUnsignedHalf(a)
+ `define READ_WORD(a)            $readWord(a)
+ `define WRITE_BYTE(a,b)         $writeByte(a,b)
+ `define WRITE_HALF(a,b)         $writeHalf(a,b)
+ `define WRITE_WORD(a,b)         $writeWord(a,b)
 
 `else
-`define GET_ARCH_PC             0
-`define READ_OPCODE(a)          $random
-`define READ_OPERAND(a)         $random
-`define READ_SIGNED_BYTE(a)     $random
-`define READ_UNSIGNED_BYTE(a)   $random
-`define READ_SIGNED_HALF(a)     $random
-`define READ_UNSIGNED_HALF(a)   $random
-`define READ_WORD(a)            $random
-`define WRITE_BYTE(a,b)         //
-`define WRITE_HALF(a,b)         //
-`define WRITE_WORD(a,b)         //
+ `define GET_ARCH_PC             0
+ `define READ_OPCODE(a)          $random
+ `define READ_OPERAND(a)         $random
+ `define READ_SIGNED_BYTE(a)     $random
+ `define READ_UNSIGNED_BYTE(a)   $random
+ `define READ_SIGNED_HALF(a)     $random
+ `define READ_UNSIGNED_HALF(a)   $random
+ `define READ_WORD(a)            $random
+ `define WRITE_BYTE(a,b)         //
+ `define WRITE_HALF(a,b)         //
+ `define WRITE_WORD(a,b)         //
 `endif
 
 
@@ -170,7 +170,7 @@
  * 01 = Call Direct/Indirect
  * 10 = Jump Direct/Indirect
  * 11 = Conditional Branch
-*/
+ */
 
 `define SIZE_DATA               32
 `define INSTRUCTION_TYPES       4
@@ -197,15 +197,15 @@
 `define FU3_LATENCY             2
 
 `define SIZE_EXE_FLAGS         8
-                                   /*  bit[0]: Mispredict,
-                                    *  bit[1]: Exception,
-                                    *  bit[2]: Executed,
-                                    *  bit[3]: Fission Instruction,
-                                    *  bit[4]: Destination Valid,
-                                    *  bit[5]: Predicted Control Instruction
-                                    *  bit[6]: Load byte/half-word sign
-                                    *  bit[7]: Conditional Branch Instruction
-                                   */
+/*  bit[0]: Mispredict,
+ *  bit[1]: Exception,
+ *  bit[2]: Executed,
+ *  bit[3]: Fission Instruction,
+ *  bit[4]: Destination Valid,
+ *  bit[5]: Predicted Control Instruction
+ *  bit[6]: Load byte/half-word sign
+ *  bit[7]: Conditional Branch Instruction
+ */
 
 
 /* PISA instruction format */
@@ -218,14 +218,14 @@
 `define SIZE_RD                 8
 `define SIZE_RU                 8
 `define SIZE_SPECIAL_REG        2        // In case of SimpleScalar HI and LO
-                                         // are special registers, which stores
-                                         // Multiply and Divide result.
+// are special registers, which stores
+// Multiply and Divide result.
 `define REG_RA                  31
 
 `ifdef DISPATCH_FIVE_WIDE
-`define NUM_RECOVER_PACKETS `COMMIT_WIDTH
+ `define NUM_RECOVER_PACKETS `COMMIT_WIDTH
 `else
-`define NUM_RECOVER_PACKETS `DISPATCH_WIDTH
+ `define NUM_RECOVER_PACKETS `DISPATCH_WIDTH
 `endif
 
 `define NUM_RECOVER_CYCLES (34 + `NUM_RECOVER_PACKET - 1)/`NUM_RECOVER_PACKET // Note: this is ceil

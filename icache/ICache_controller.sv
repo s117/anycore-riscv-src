@@ -1,58 +1,58 @@
 /*******************************************************************************
-#                        NORTH CAROLINA STATE UNIVERSITY
-#
-#                              AnyCore Project
-# 
-# AnyCore written by NCSU authors Rangeen Basu Roy Chowdhury and Eric Rotenberg.
-# 
-# AnyCore is based on FabScalar which was written by NCSU authors Niket K. 
-# Choudhary, Brandon H. Dwiel, and Eric Rotenberg.
-# 
-# AnyCore also includes contributions by NCSU authors Elliott Forbes, Jayneel 
-# Gandhi, Anil Kumar Kannepalli, Sungkwan Ku, Hiran Mayukh, Hashem Hashemi 
-# Najaf-abadi, Sandeep Navada, Tanmay Shah, Ashlesha Shastri, Vinesh Srinivasan, 
-# and Salil Wadhavkar.
-# 
-# AnyCore is distributed under the BSD license.
-*******************************************************************************/
+ #                        NORTH CAROLINA STATE UNIVERSITY
+ #
+ #                              AnyCore Project
+ # 
+ # AnyCore written by NCSU authors Rangeen Basu Roy Chowdhury and Eric Rotenberg.
+ # 
+ # AnyCore is based on FabScalar which was written by NCSU authors Niket K. 
+ # Choudhary, Brandon H. Dwiel, and Eric Rotenberg.
+ # 
+ # AnyCore also includes contributions by NCSU authors Elliott Forbes, Jayneel 
+ # Gandhi, Anil Kumar Kannepalli, Sungkwan Ku, Hiran Mayukh, Hashem Hashemi 
+ # Najaf-abadi, Sandeep Navada, Tanmay Shah, Ashlesha Shastri, Vinesh Srinivasan, 
+ # and Salil Wadhavkar.
+ # 
+ # AnyCore is distributed under the BSD license.
+ *******************************************************************************/
 
 `timescale 1ns/100ps
 
 
 module ICache_controller#(
-    parameter FETCH_WIDTH = `FETCH_WIDTH
-) (
+                          parameter FETCH_WIDTH = `FETCH_WIDTH
+                          ) (
 
-    // processor/cache interface
-    input                               fetchReq_i,
-    input  [`SIZE_PC-1:0]               pc_i,
-    output [`SIZE_INSTRUCTION-1:0]      inst_o      [0:FETCH_WIDTH-1],
-    output [0:FETCH_WIDTH-1]            instValid_o,
+                             // processor/cache interface
+                             input                                                    fetchReq_i,
+                             input [`SIZE_PC-1:0]                                     pc_i,
+                             output [`SIZE_INSTRUCTION-1:0]                           inst_o [0:FETCH_WIDTH-1],
+                             output [0:FETCH_WIDTH-1]                                 instValid_o,
 
-  `ifdef INST_CACHE
-    // cache-to-memory interface
-    output [`ICACHE_BLOCK_ADDR_BITS-1:0]  ic2memReqAddr_o,  // memory read address
-    output reg                          ic2memReqValid_o, // memory read enable
+`ifdef INST_CACHE
+                             // cache-to-memory interface
+                             output [`ICACHE_BLOCK_ADDR_BITS-1:0]                     ic2memReqAddr_o, // memory read address
+                             output reg                                               ic2memReqValid_o, // memory read enable
 
-    // memory-to-cache interface
-    input  [`ICACHE_TAG_BITS-1:0]       mem2icTag_i,       // tag of the incoming datadetermine
-    input  [`ICACHE_INDEX_BITS-1:0]     mem2icIndex_i,     // index of the incoming data
-    input  [`ICACHE_BITS_IN_LINE-1:0]      mem2icData_i,      // requested data
-    input                               mem2icRespValid_i, // indicates the requested data is ready
+                             // memory-to-cache interface
+                             input [`ICACHE_TAG_BITS-1:0]                             mem2icTag_i, // tag of the incoming datadetermine
+                             input [`ICACHE_INDEX_BITS-1:0]                           mem2icIndex_i, // index of the incoming data
+                             input [`ICACHE_BITS_IN_LINE-1:0]                         mem2icData_i, // requested data
+                             input                                                    mem2icRespValid_i, // indicates the requested data is ready
 
-    input [`ICACHE_INDEX_BITS+`ICACHE_BYTES_IN_LINE_LOG-1:0]  icScratchWrAddr_i,
-    input                                                     icScratchWrEn_i,
-    input [7:0]                                               icScratchWrData_i,
-    output [7:0]                                              icScratchRdData_o,
-  `endif
+                             input [`ICACHE_INDEX_BITS+`ICACHE_BYTES_IN_LINE_LOG-1:0] icScratchWrAddr_i,
+                             input                                                    icScratchWrEn_i,
+                             input [7:0]                                              icScratchWrData_i,
+                             output [7:0]                                             icScratchRdData_o,
+`endif
 
-    input                               mmuException_i,
-    output                              icMiss_o,
+                             input                                                    mmuException_i,
+                             output                                                   icMiss_o,
 
-    input                               clk,
-    input                               reset,
-    input                               icScratchModeEn_i // Should ideally be disabled by default
-);
+                             input                                                    clk,
+                             input                                                    reset,
+                             input                                                    icScratchModeEn_i // Should ideally be disabled by default
+                             );
 
 `ifdef INST_CACHE
 
@@ -70,32 +70,32 @@ module ICache_controller#(
   ////////////////////////////////////////////////////////////
   
   // SCRATCH Mode related signals - Pipelined once for better timing and fanout
-  logic                                 icScratchModeEn_d1;
-  logic [`ICACHE_INDEX_BITS-1:0]        icScratchWrIndex_d1;
-  logic [`ICACHE_BYTES_IN_LINE_LOG-1:0] icScratchWrByte_d1;
-  logic [7:0]                           icScratchWrData_d1;
-  logic                                 icScratchWrEn_d1;
+  logic                                                                               icScratchModeEn_d1;
+  logic [`ICACHE_INDEX_BITS-1:0]                                                      icScratchWrIndex_d1;
+  logic [`ICACHE_BYTES_IN_LINE_LOG-1:0]                                               icScratchWrByte_d1;
+  logic [7:0]                                                                         icScratchWrData_d1;
+  logic                                                                               icScratchWrEn_d1;
 
   always_ff @(posedge clk or posedge reset)
-  begin
-    if(reset)
     begin
-      icScratchModeEn_d1   <=  1'b0;    // Default is SCRATCH mode on reset
-      icScratchWrIndex_d1  <=  {`ICACHE_INDEX_BITS{1'b0}};
-      icScratchWrByte_d1   <=  {`ICACHE_BYTES_IN_LINE_LOG{1'b0}};
-      icScratchWrData_d1   <=  8'h0;
-      icScratchWrEn_d1     <=  1'b0;
+      if(reset)
+        begin
+          icScratchModeEn_d1   <=  1'b0;    // Default is SCRATCH mode on reset
+          icScratchWrIndex_d1  <=  {`ICACHE_INDEX_BITS{1'b0}};
+          icScratchWrByte_d1   <=  {`ICACHE_BYTES_IN_LINE_LOG{1'b0}};
+          icScratchWrData_d1   <=  8'h0;
+          icScratchWrEn_d1     <=  1'b0;
+        end
+      else
+        begin
+          icScratchModeEn_d1   <=  icScratchModeEn_i;
+          icScratchWrIndex_d1  <=  icScratchWrAddr_i[`ICACHE_INDEX_BITS+`ICACHE_BYTES_IN_LINE_LOG-1:`ICACHE_BYTES_IN_LINE_LOG];
+          icScratchWrByte_d1   <=  icScratchWrAddr_i[`ICACHE_BYTES_IN_LINE_LOG-1:0];
+          icScratchWrData_d1   <=  icScratchWrData_i;
+          icScratchWrEn_d1     <=  icScratchWrEn_i  ;
+        end
     end
-    else
-    begin
-      icScratchModeEn_d1   <=  icScratchModeEn_i;
-      icScratchWrIndex_d1  <=  icScratchWrAddr_i[`ICACHE_INDEX_BITS+`ICACHE_BYTES_IN_LINE_LOG-1:`ICACHE_BYTES_IN_LINE_LOG];
-      icScratchWrByte_d1   <=  icScratchWrAddr_i[`ICACHE_BYTES_IN_LINE_LOG-1:0];
-      icScratchWrData_d1   <=  icScratchWrData_i;
-      icScratchWrEn_d1     <=  icScratchWrEn_i  ;
-    end
-  end
-   
+  
 
   // pc segments /////////////////////////////////////////////
   logic [`ICACHE_OFFSET_BITS-1:0]    pc_offset;
@@ -113,24 +113,24 @@ module ICache_controller#(
   
   // the registered signals are for miss handling
   always_ff @(posedge clk)
-  begin
-    pc_tag_reg              <= pc_tag;
-    pc_index_reg            <= pc_index;
-    pc_offset_reg           <= pc_offset;
-    fetchReq_reg            <= fetchReq_i;
-  end
+    begin
+      pc_tag_reg              <= pc_tag;
+      pc_index_reg            <= pc_index;
+      pc_offset_reg           <= pc_offset;
+      fetchReq_reg            <= fetchReq_i;
+    end
   
   // tag, valid and data read from cache /////////////////////
   logic [`ICACHE_TAG_BITS-1:0]    cache_tag;
-  logic [`ICACHE_BITS_IN_LINE-1:0]   cache_data;
-  logic                           cache_valid;
+  logic [`ICACHE_BITS_IN_LINE-1:0] cache_data;
+  logic                            cache_valid;
   
   // hit detection logic. hits are detected the cycle after fetchReq_i goes high.
   // hit can stay high for multiple cycles if no new request comes (e.g. fetch
   // stalls)
-  logic   [0:`FETCH_WIDTH-1]      instValid;
-  logic   [`SIZE_INSTRUCTION-1:0] inst [0:`FETCH_WIDTH-1];
-  logic                           hit;
+  logic [0:`FETCH_WIDTH-1]         instValid;
+  logic [`SIZE_INSTRUCTION-1:0]    inst [0:`FETCH_WIDTH-1];
+  logic                            hit;
   
   
   assign inst_o = inst;
@@ -140,43 +140,43 @@ module ICache_controller#(
   // MSHR / FILL  Logic /////////////////////
   ///////////////////////////////////////////////
   
-  logic                             fillValid;
-  logic   [`ICACHE_OFFSET_BITS-1:0] fillOffset;
-  logic   [`ICACHE_INDEX_BITS-1:0]  fillIndex;
-  logic   [`ICACHE_TAG_BITS-1:0]    fillTag;
-  logic   [`ICACHE_BITS_IN_LINE-1:0]   fillData;
+  logic                            fillValid;
+  logic [`ICACHE_OFFSET_BITS-1:0]  fillOffset;
+  logic [`ICACHE_INDEX_BITS-1:0]   fillIndex;
+  logic [`ICACHE_TAG_BITS-1:0]     fillTag;
+  logic [`ICACHE_BITS_IN_LINE-1:0] fillData;
   
   // MHSR 0 
-  logic                             mshr0Valid;
-  logic   [`ICACHE_OFFSET_BITS-1:0] mshr0Offset;
-  logic   [`ICACHE_INDEX_BITS-1:0]  mshr0Index;
-  logic   [`ICACHE_TAG_BITS-1:0]    mshr0Tag;
+  logic                            mshr0Valid;
+  logic [`ICACHE_OFFSET_BITS-1:0]  mshr0Offset;
+  logic [`ICACHE_INDEX_BITS-1:0]   mshr0Index;
+  logic [`ICACHE_TAG_BITS-1:0]     mshr0Tag;
   
   // Misc signals
-  logic                             miss;
-  logic                             miss_d1;
-  logic                             miss_d2;
-  logic                             miss_pulse;
-  logic                             missUnderMiss;
+  logic                            miss;
+  logic                            miss_d1;
+  logic                            miss_d2;
+  logic                            miss_pulse;
+  logic                            missUnderMiss;
   
   assign miss = ~hit;
 
   assign icMiss_o = ic2memReqValid_o;
   
   always_ff @(posedge clk or posedge reset)
-  begin
-    if(reset)
     begin
-      miss_d1 <= 1'b0;
-      miss_d2 <= 1'b0;
+      if(reset)
+        begin
+          miss_d1 <= 1'b0;
+          miss_d2 <= 1'b0;
+        end
+      else
+        begin
+          // Clear on a fillValid so that a pulse is generated for a pending miss
+          miss_d1 <= miss & fetchReq_i & ~fillValid;
+          miss_d2 <= miss_d1 & ~fillValid;
+        end
     end
-    else
-    begin
-      // Clear on a fillValid so that a pulse is generated for a pending miss
-      miss_d1 <= miss & fetchReq_i & ~fillValid;
-      miss_d2 <= miss_d1 & ~fillValid;
-    end
-  end
   
   assign miss_pulse = miss_d1 & ~miss_d2;
   //assign miss_pulse = fetchReq_i & miss & ~miss_d1;
@@ -191,158 +191,158 @@ module ICache_controller#(
   
   
   /* The following block currently implements a single MSHR.
-     It can be easily extended to support a fully associative
-     file of MSHRs */
+   It can be easily extended to support a fully associative
+   file of MSHRs */
   always_ff @(posedge clk or posedge reset)
-  begin
-    if(reset)
     begin
-      fillValid <= 1'b0;
-      fillIndex <= {`ICACHE_INDEX_BITS{1'b0}};
-      fillTag   <= {`ICACHE_TAG_BITS{1'b0}};
+      if(reset)
+        begin
+          fillValid <= 1'b0;
+          fillIndex <= {`ICACHE_INDEX_BITS{1'b0}};
+          fillTag   <= {`ICACHE_TAG_BITS{1'b0}};
+        end
+      else
+        begin
+          //NOTE: SCRATCH MODE
+          // Pull fillValid low when in scratch mode.
+          fillValid <= ~icScratchModeEn_d1 & (mem2icRespValid_i & mshr0Valid & (mshr0Index == mem2icIndex_i) & (mshr0Tag == mem2icTag_i));
+          fillIndex <= mshr0Index;
+          fillTag   <= mshr0Tag;
+          
+          fillData  <= mem2icData_i;
+        end
     end
-    else
-    begin
-      //NOTE: SCRATCH MODE
-      // Pull fillValid low when in scratch mode.
-      fillValid <= ~icScratchModeEn_d1 & (mem2icRespValid_i & mshr0Valid & (mshr0Index == mem2icIndex_i) & (mshr0Tag == mem2icTag_i));
-      fillIndex <= mshr0Index;
-      fillTag   <= mshr0Tag;
-      
-      fillData  <= mem2icData_i;
-    end
-  end
   
   always_ff @(posedge clk or posedge reset)
-  begin
-    if(reset)
     begin
-      missUnderMiss <= 1'b0;
-      mshr0Valid <= 1'b0;
-      mshr0Index <= 9'b0;
-      mshr0Offset<= 3'b0;
-      mshr0Tag   <= 10'b0;
-    end
-    else
-    begin
-      // Clear on fill valid and set on L2 read request
-      case({fillValid,miss_pulse})
-        2'b00: begin
-          missUnderMiss <= missUnderMiss;
-          mshr0Valid <= mshr0Valid;
-        end
-        2'b01: begin 
-          mshr0Valid <= 1'b1; 
-          if(mshr0Valid) 
-            missUnderMiss <= 1'b1;
-          else // if not already handling a miss, record the address
-          begin
-            mshr0Index  <= pc_index_reg;
-            mshr0Offset <= pc_offset_reg;
-            mshr0Tag    <= pc_tag_reg;
-          end
-        end
-        2'b10: begin
+      if(reset)
+        begin
           missUnderMiss <= 1'b0;
           mshr0Valid <= 1'b0;
+          mshr0Index <= 9'b0;
+          mshr0Offset<= 3'b0;
+          mshr0Tag   <= 10'b0;
         end
-        2'b11: begin // If completing a miss handling in the same cycle
-          missUnderMiss <= 1'b0;
-          mshr0Valid  <= 1'b1;
-          mshr0Index  <= pc_index_reg;
-          mshr0Offset <= pc_offset_reg;
-          mshr0Tag    <= pc_tag_reg;
+      else
+        begin
+          // Clear on fill valid and set on L2 read request
+          case({fillValid,miss_pulse})
+            2'b00: begin
+              missUnderMiss <= missUnderMiss;
+              mshr0Valid <= mshr0Valid;
+            end
+            2'b01: begin 
+              mshr0Valid <= 1'b1; 
+              if(mshr0Valid) 
+                missUnderMiss <= 1'b1;
+              else // if not already handling a miss, record the address
+                begin
+                  mshr0Index  <= pc_index_reg;
+                  mshr0Offset <= pc_offset_reg;
+                  mshr0Tag    <= pc_tag_reg;
+                end
+            end
+            2'b10: begin
+              missUnderMiss <= 1'b0;
+              mshr0Valid <= 1'b0;
+            end
+            2'b11: begin // If completing a miss handling in the same cycle
+              missUnderMiss <= 1'b0;
+              mshr0Valid  <= 1'b1;
+              mshr0Index  <= pc_index_reg;
+              mshr0Offset <= pc_offset_reg;
+              mshr0Tag    <= pc_tag_reg;
+            end
+            default: begin
+              missUnderMiss <= 1'b0;
+              mshr0Valid  <= mshr0Valid;
+              mshr0Index  <= mshr0Index;
+              mshr0Offset <= mshr0Offset; 
+              mshr0Tag    <= mshr0Tag; 
+            end
+          endcase
         end
-        default: begin
-          missUnderMiss <= 1'b0;
-          mshr0Valid  <= mshr0Valid;
-          mshr0Index  <= mshr0Index;
-          mshr0Offset <= mshr0Offset; 
-          mshr0Tag    <= mshr0Tag; 
-        end
-      endcase
     end
-  end
   
   
   ////////////////////////////////////////////////////////////
   
   
   always_comb
-  begin
+    begin
       int i;
       for (i = 0; i < `FETCH_WIDTH; i++)
-          instValid[i]          = 1'b0;
-  
+        instValid[i]          = 1'b0;
+      
       if (hit)
-      begin
-        instValid[0]  = 1'b1;  // First slot is always valid irrespective of the offset
-  
-        `ifdef FETCH_TWO_WIDE
+        begin
+          instValid[0]  = 1'b1;  // First slot is always valid irrespective of the offset
+          
+ `ifdef FETCH_TWO_WIDE
           // Second slot is valid when pc is less than the total number of slots
           if(pc_offset < `ICACHE_INSTS_IN_LINE-1)
             instValid[1] = 1'b1;
-        `endif
-  
-        `ifdef FETCH_THREE_WIDE
+ `endif
+          
+ `ifdef FETCH_THREE_WIDE
           if(pc_offset < `ICACHE_INSTS_IN_LINE-2)
             instValid[2] = 1'b1;
-        `endif
-  
-        `ifdef FETCH_FOUR_WIDE
+ `endif
+          
+ `ifdef FETCH_FOUR_WIDE
           if(pc_offset < `ICACHE_INSTS_IN_LINE-3)
             instValid[3] = 1'b1;
-        `endif
-  
-        `ifdef FETCH_FIVE_WIDE
+ `endif
+          
+ `ifdef FETCH_FIVE_WIDE
           if(pc_offset < `ICACHE_INSTS_IN_LINE-4)
             instValid[4] = 1'b1;
-        `endif
-  
-        `ifdef FETCH_SIX_WIDE
+ `endif
+          
+ `ifdef FETCH_SIX_WIDE
           if(pc_offset < `ICACHE_INSTS_IN_LINE-5)
             instValid[5] = 1'b1;
-        `endif
-  
-        `ifdef FETCH_SEVEN_WIDE
+ `endif
+          
+ `ifdef FETCH_SEVEN_WIDE
           if(pc_offset < `ICACHE_INSTS_IN_LINE-6)
             instValid[6] = 1'b1;
-        `endif
-  
-        `ifdef FETCH_EIGHT_WIDE
+ `endif
+          
+ `ifdef FETCH_EIGHT_WIDE
           if(pc_offset < `ICACHE_INSTS_IN_LINE-7)
             instValid[7] = 1'b1;
-        `endif
-  
-      end
-  end
+ `endif
+          
+        end
+    end
   
   logic [(2*`ICACHE_BITS_IN_LINE)-1 : 0] cache_data_extended;
   // extract the instruction from the cache block
   always_comb
-  begin
-    int i;
-    cache_data_extended = {{`ICACHE_BITS_IN_LINE{1'b0}},cache_data}; // Like reading two consecutive cache blocks
-    for(i = 0;i < `FETCH_WIDTH;i++)
     begin
-      // Instructions going to the pipeline is still 64 bit but in the cache, its 40 bits. Padding with 0s.
-      inst[i] = {24'b0,cache_data_extended[((pc_offset+i)*`SIZE_INSTRUCTION)+`SIZE_INSTRUCTION-1 -: `SIZE_INSTRUCTION]};
+      int i;
+      cache_data_extended = {{`ICACHE_BITS_IN_LINE{1'b0}},cache_data}; // Like reading two consecutive cache blocks
+      for(i = 0;i < `FETCH_WIDTH;i++)
+        begin
+          // Instructions going to the pipeline is still 64 bit but in the cache, its 40 bits. Padding with 0s.
+          inst[i] = {24'b0,cache_data_extended[((pc_offset+i)*`SIZE_INSTRUCTION)+`SIZE_INSTRUCTION-1 -: `SIZE_INSTRUCTION]};
+        end
     end
-  end
   
   
   /* Cache data and tag arrays */
   logic [`ICACHE_BITS_IN_LINE-1:0]                       data_array [`ICACHE_NUM_LINES-1:0];
-  logic [(`ICACHE_TAG_BITS*`ICACHE_INSTS_IN_LINE)-1:0]tag_array [`ICACHE_NUM_LINES-1:0];
-  logic [`ICACHE_NUM_LINES-1:0]                       valid_array;
+  logic [(`ICACHE_TAG_BITS*`ICACHE_INSTS_IN_LINE)-1:0]   tag_array [`ICACHE_NUM_LINES-1:0];
+  logic [`ICACHE_NUM_LINES-1:0]                          valid_array;
   
   
   always_comb
-  begin
-    cache_data  = data_array[pc_index];
-    cache_tag   = tag_array[pc_index];
-    cache_valid = valid_array[pc_index];
-  end
+    begin
+      cache_data  = data_array[pc_index];
+      cache_tag   = tag_array[pc_index];
+      cache_valid = valid_array[pc_index];
+    end
   
   // A fetch only generates a hit if fetchReq_i is high
   // An instruction is not bypassed from fill buffer, the pipeline
@@ -394,42 +394,42 @@ module ICache_controller#(
   //assign BIST[3]  = {`NOP_INST  ,`NOP_INST  ,`JUMP_INST ,`ADD_INST_1   ,`TOGGLE_INST_C,`ADD_INST_2,`ADD_INST_1,`ADD_INST_2 };
   
   always_ff @(posedge clk or posedge reset)
-  begin
-    int i;
-    if(reset)
     begin
-      for(i=0 ; i < 4; i++)
-        data_array[i]         <=  BIST[i];
+      int i;
+      if(reset)
+        begin
+          for(i=0 ; i < 4; i++)
+            data_array[i]         <=  BIST[i];
+        end
+      else if(fillValid)
+        begin
+          data_array[fillIndex]   <=  fillData;
+          tag_array[fillIndex]    <=  fillTag;
+        end
+      // Load scratch pad from outside
+           else if(icScratchWrEn_d1 & icScratchModeEn_d1)
+             begin
+               data_array[icScratchWrIndex_d1][(icScratchWrByte_d1*8) +: 8]  <= icScratchWrData_d1; 
+             end
     end
-    else if(fillValid)
-    begin
-      data_array[fillIndex]   <=  fillData;
-      tag_array[fillIndex]    <=  fillTag;
-    end
-    // Load scratch pad from outside
-    else if(icScratchWrEn_d1 & icScratchModeEn_d1)
-    begin
-      data_array[icScratchWrIndex_d1][(icScratchWrByte_d1*8) +: 8]  <= icScratchWrData_d1; 
-    end
-  end
   
   // Reading the bytes through the SCRATCH interface
   assign icScratchRdData_o  = data_array[icScratchWrIndex_d1][(icScratchWrByte_d1*8) +: 8];
 
   always_ff @(posedge clk or posedge reset)
-  begin
-    if(reset)
     begin
-      int i;
-      for(i = 0; i < `ICACHE_NUM_LINES;i++)
-        valid_array[i] <= 1'b0;
+      if(reset)
+        begin
+          int i;
+          for(i = 0; i < `ICACHE_NUM_LINES;i++)
+            valid_array[i] <= 1'b0;
+        end
+      else
+        begin
+          if(fillValid)
+            valid_array[fillIndex] <= 1'b1;
+        end
     end
-    else
-    begin
-      if(fillValid)
-        valid_array[fillIndex] <= 1'b1;
-    end
-  end
 
 `endif //`ifdef INST_CACHE
 endmodule

@@ -1,20 +1,20 @@
 /*******************************************************************************
-#                        NORTH CAROLINA STATE UNIVERSITY
-#
-#                              AnyCore Project
-# 
-# AnyCore written by NCSU authors Rangeen Basu Roy Chowdhury and Eric Rotenberg.
-# 
-# AnyCore is based on FabScalar which was written by NCSU authors Niket K. 
-# Choudhary, Brandon H. Dwiel, and Eric Rotenberg.
-# 
-# AnyCore also includes contributions by NCSU authors Elliott Forbes, Jayneel 
-# Gandhi, Anil Kumar Kannepalli, Sungkwan Ku, Hiran Mayukh, Hashem Hashemi 
-# Najaf-abadi, Sandeep Navada, Tanmay Shah, Ashlesha Shastri, Vinesh Srinivasan, 
-# and Salil Wadhavkar.
-# 
-# AnyCore is distributed under the BSD license.
-*******************************************************************************/
+ #                        NORTH CAROLINA STATE UNIVERSITY
+ #
+ #                              AnyCore Project
+ # 
+ # AnyCore written by NCSU authors Rangeen Basu Roy Chowdhury and Eric Rotenberg.
+ # 
+ # AnyCore is based on FabScalar which was written by NCSU authors Niket K. 
+ # Choudhary, Brandon H. Dwiel, and Eric Rotenberg.
+ # 
+ # AnyCore also includes contributions by NCSU authors Elliott Forbes, Jayneel 
+ # Gandhi, Anil Kumar Kannepalli, Sungkwan Ku, Hiran Mayukh, Hashem Hashemi 
+ # Najaf-abadi, Sandeep Navada, Tanmay Shah, Ashlesha Shastri, Vinesh Srinivasan, 
+ # and Salil Wadhavkar.
+ # 
+ # AnyCore is distributed under the BSD license.
+ *******************************************************************************/
 
 `timescale 1ns/1ps
 
@@ -160,8 +160,8 @@
 
 // Enable this only if there are no caches and no load violation predictor
 //`ifndef ENABLE_LD_VIOLATION_PRED
- // `define LD_SPECULATIVELY_WAKES_DEPENDENT
-  `define REPLAY_TWO_DEEP
+// `define LD_SPECULATIVELY_WAKES_DEPENDENT
+`define REPLAY_TWO_DEEP
 //`endif
 
 //`define EXEC_WIDTH `ISSUE_WIDTH 
@@ -190,7 +190,7 @@
 `define SIZE_INST_BYTE_OFFSET   2
 
 `define SIZE_DATA               64
-`define SIZE_DATA_BYTE		      8
+`define SIZE_DATA_BYTE                8
 `define SIZE_DATA_BYTE_OFFSET   3
 `define SIZE_VIRT_ADDR          64
 
@@ -238,52 +238,52 @@
 
 
 `ifdef SCRATCH_PAD
-  `define DEBUG_INST_RAM_WIDTH 32 //RISCV 
-  `define DEBUG_INST_RAM_WIDTH_LOG 5
-  `define DEBUG_INST_RAM_DEPTH 256
-  `define DEBUG_INST_RAM_LOG   8
-  `define DEBUG_DATA_RAM_WIDTH 64
-  `define DEBUG_DATA_RAM_WIDTH_LOG 6
-  `define DEBUG_DATA_RAM_DEPTH 256
-  `define DEBUG_DATA_RAM_LOG   8
+ `define DEBUG_INST_RAM_WIDTH 32 //RISCV 
+ `define DEBUG_INST_RAM_WIDTH_LOG 5
+ `define DEBUG_INST_RAM_DEPTH 256
+ `define DEBUG_INST_RAM_LOG   8
+ `define DEBUG_DATA_RAM_WIDTH 64
+ `define DEBUG_DATA_RAM_WIDTH_LOG 6
+ `define DEBUG_DATA_RAM_DEPTH 256
+ `define DEBUG_DATA_RAM_LOG   8
 `endif
 
 `ifdef INST_CACHE
-  `define ICACHE_INST_BYTE_OFFSET_LOG 2 // Byte offsets in individual instructions which are 4 byte long in RISCV
-  `define ICACHE_INSTS_IN_LINE 4*(2**`FETCH_WIDTH_LOG)  // At least 4 times the number of fetch lanes
-  `define ICACHE_INSTS_IN_LINE_LOG (`FETCH_WIDTH_LOG+2)  // log2(ICACHE_INSTS_IN_LINE)
-  `define ICACHE_BITS_IN_LINE (`ICACHE_INSTS_IN_LINE*`SIZE_INSTRUCTION)  //In bits
-  `define ICACHE_BYTES_IN_LINE (`ICACHE_BITS_IN_LINE/8) 
-  `define ICACHE_BYTES_IN_LINE_LOG (`ICACHE_INSTS_IN_LINE_LOG + `ICACHE_INST_BYTE_OFFSET_LOG) //log2(ICACHE_BYTES_IN_LINE)
-  `define ICACHE_NUM_LINES 64 //128
-  `define ICACHE_NUM_LINES_LOG 6 //7
-  `define ICACHE_OFFSET_BITS  `ICACHE_INSTS_IN_LINE_LOG
-  `define ICACHE_INDEX_BITS   `ICACHE_NUM_LINES_LOG
-  `define ICACHE_TAG_BITS     (`SIZE_PC - `ICACHE_INDEX_BITS - `ICACHE_OFFSET_BITS - `ICACHE_INST_BYTE_OFFSET_LOG)
-  `define ICACHE_BLOCK_ADDR_BITS  (`SIZE_PC - `ICACHE_OFFSET_BITS - `ICACHE_INST_BYTE_OFFSET_LOG) // Cache block address 
-  `define ICACHE_PC_PKT_BITS    8
-  `define ICACHE_INST_PKT_BITS  8
+ `define ICACHE_INST_BYTE_OFFSET_LOG 2 // Byte offsets in individual instructions which are 4 byte long in RISCV
+ `define ICACHE_INSTS_IN_LINE 4*(2**`FETCH_WIDTH_LOG)  // At least 4 times the number of fetch lanes
+ `define ICACHE_INSTS_IN_LINE_LOG (`FETCH_WIDTH_LOG+2)  // log2(ICACHE_INSTS_IN_LINE)
+ `define ICACHE_BITS_IN_LINE (`ICACHE_INSTS_IN_LINE*`SIZE_INSTRUCTION)  //In bits
+ `define ICACHE_BYTES_IN_LINE (`ICACHE_BITS_IN_LINE/8) 
+ `define ICACHE_BYTES_IN_LINE_LOG (`ICACHE_INSTS_IN_LINE_LOG + `ICACHE_INST_BYTE_OFFSET_LOG) //log2(ICACHE_BYTES_IN_LINE)
+ `define ICACHE_NUM_LINES 64 //128
+ `define ICACHE_NUM_LINES_LOG 6 //7
+ `define ICACHE_OFFSET_BITS  `ICACHE_INSTS_IN_LINE_LOG
+ `define ICACHE_INDEX_BITS   `ICACHE_NUM_LINES_LOG
+ `define ICACHE_TAG_BITS     (`SIZE_PC - `ICACHE_INDEX_BITS - `ICACHE_OFFSET_BITS - `ICACHE_INST_BYTE_OFFSET_LOG)
+ `define ICACHE_BLOCK_ADDR_BITS  (`SIZE_PC - `ICACHE_OFFSET_BITS - `ICACHE_INST_BYTE_OFFSET_LOG) // Cache block address 
+ `define ICACHE_PC_PKT_BITS    8
+ `define ICACHE_INST_PKT_BITS  8
 `endif
 
 `ifdef DATA_CACHE
-  `define DCACHE_WORD_BYTE_OFFSET_LOG `SIZE_DATA_BYTE_OFFSET     // Byte offsets in a data word which is 8 byte long in RISCV
-  `define DCACHE_WORDS_IN_LINE 8            // 8 double words - basically 8*8 bytes = 64 bytes
-  `define DCACHE_WORDS_IN_LINE_LOG 3        // log2(DCACHE_WORDS_IN_LINE)
-  `define DCACHE_BITS_IN_LINE (`DCACHE_WORDS_IN_LINE*`SIZE_DATA)  //In bits , using 64 for word size 
-  `define DCACHE_BYTES_IN_LINE (`DCACHE_WORDS_IN_LINE*8) //Each word is 8 bytes in RISCV
-  `define DCACHE_BYTES_IN_LINE_LOG (`DCACHE_WORDS_IN_LINE_LOG + `DCACHE_WORD_BYTE_OFFSET_LOG)
-  `define DCACHE_NUM_LINES 128
-  `define DCACHE_NUM_LINES_LOG 7
-  `define DCACHE_OFFSET_BITS  `DCACHE_WORDS_IN_LINE_LOG
-  `define DCACHE_INDEX_BITS   `DCACHE_NUM_LINES_LOG
-  `define DCACHE_TAG_BITS     (`SIZE_PC - `DCACHE_INDEX_BITS - `DCACHE_OFFSET_BITS - `DCACHE_WORD_BYTE_OFFSET_LOG)
-  `define DCACHE_BLOCK_ADDR_BITS (`SIZE_PC - `DCACHE_OFFSET_BITS - `DCACHE_WORD_BYTE_OFFSET_LOG) // Determines the size of cache line adddresses 
-  `define DCACHE_ST_ADDR_BITS (`SIZE_PC - `DCACHE_WORD_BYTE_OFFSET_LOG) // Determines the size of cache line adddresses 
-  `define DCACHE_SIZE_STB   8
-  `define DCACHE_SIZE_STB_LOG   3
-  `define DCACHE_LD_ADDR_PKT_BITS 8
-  `define DCACHE_LD_DATA_PKT_BITS 8
-  `define DCACHE_ST_PKT_BITS      8
+ `define DCACHE_WORD_BYTE_OFFSET_LOG `SIZE_DATA_BYTE_OFFSET     // Byte offsets in a data word which is 8 byte long in RISCV
+ `define DCACHE_WORDS_IN_LINE 8            // 8 double words - basically 8*8 bytes = 64 bytes
+ `define DCACHE_WORDS_IN_LINE_LOG 3        // log2(DCACHE_WORDS_IN_LINE)
+ `define DCACHE_BITS_IN_LINE (`DCACHE_WORDS_IN_LINE*`SIZE_DATA)  //In bits , using 64 for word size 
+ `define DCACHE_BYTES_IN_LINE (`DCACHE_WORDS_IN_LINE*8) //Each word is 8 bytes in RISCV
+ `define DCACHE_BYTES_IN_LINE_LOG (`DCACHE_WORDS_IN_LINE_LOG + `DCACHE_WORD_BYTE_OFFSET_LOG)
+ `define DCACHE_NUM_LINES 128
+ `define DCACHE_NUM_LINES_LOG 7
+ `define DCACHE_OFFSET_BITS  `DCACHE_WORDS_IN_LINE_LOG
+ `define DCACHE_INDEX_BITS   `DCACHE_NUM_LINES_LOG
+ `define DCACHE_TAG_BITS     (`SIZE_PC - `DCACHE_INDEX_BITS - `DCACHE_OFFSET_BITS - `DCACHE_WORD_BYTE_OFFSET_LOG)
+ `define DCACHE_BLOCK_ADDR_BITS (`SIZE_PC - `DCACHE_OFFSET_BITS - `DCACHE_WORD_BYTE_OFFSET_LOG) // Determines the size of cache line adddresses 
+ `define DCACHE_ST_ADDR_BITS (`SIZE_PC - `DCACHE_WORD_BYTE_OFFSET_LOG) // Determines the size of cache line adddresses 
+ `define DCACHE_SIZE_STB   8
+ `define DCACHE_SIZE_STB_LOG   3
+ `define DCACHE_LD_ADDR_PKT_BITS 8
+ `define DCACHE_LD_DATA_PKT_BITS 8
+ `define DCACHE_ST_PKT_BITS      8
 `endif
 
 // Register interface parameters (for CHIP mode)

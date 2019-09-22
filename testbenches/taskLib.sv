@@ -1,20 +1,20 @@
 /*******************************************************************************
-#                        NORTH CAROLINA STATE UNIVERSITY
-#
-#                              AnyCore Project
-# 
-# AnyCore written by NCSU authors Rangeen Basu Roy Chowdhury and Eric Rotenberg.
-# 
-# AnyCore is based on FabScalar which was written by NCSU authors Niket K. 
-# Choudhary, Brandon H. Dwiel, and Eric Rotenberg.
-# 
-# AnyCore also includes contributions by NCSU authors Elliott Forbes, Jayneel 
-# Gandhi, Anil Kumar Kannepalli, Sungkwan Ku, Hiran Mayukh, Hashem Hashemi 
-# Najaf-abadi, Sandeep Navada, Tanmay Shah, Ashlesha Shastri, Vinesh Srinivasan, 
-# and Salil Wadhavkar.
-# 
-# AnyCore is distributed under the BSD license.
-*******************************************************************************/
+ #                        NORTH CAROLINA STATE UNIVERSITY
+ #
+ #                              AnyCore Project
+ # 
+ # AnyCore written by NCSU authors Rangeen Basu Roy Chowdhury and Eric Rotenberg.
+ # 
+ # AnyCore is based on FabScalar which was written by NCSU authors Niket K. 
+ # Choudhary, Brandon H. Dwiel, and Eric Rotenberg.
+ # 
+ # AnyCore also includes contributions by NCSU authors Elliott Forbes, Jayneel 
+ # Gandhi, Anil Kumar Kannepalli, Sungkwan Ku, Hiran Mayukh, Hashem Hashemi 
+ # Najaf-abadi, Sandeep Navada, Tanmay Shah, Ashlesha Shastri, Vinesh Srinivasan, 
+ # and Salil Wadhavkar.
+ # 
+ # AnyCore is distributed under the BSD license.
+ *******************************************************************************/
 
 export "DPI-C" function get_csr_from_rtl;
 export "DPI-C" task set_csr_in_rtl;
@@ -22,114 +22,114 @@ export "DPI-C" task end_rtl_simulation;
 export "DPI-C" task flush_caches_in_rtl;
 
 task end_rtl_simulation;
-        ipc = $itor(COMMIT_COUNT)/$itor(CYCLE_COUNT);
+  ipc = $itor(COMMIT_COUNT)/$itor(CYCLE_COUNT);
 
-        $display("\n\nSimulation Complete\n");
-        // Before the simulator is terminated, print all the stats:
-        $display("Fetch1-Stall          %5d",fetch1_stall   );  
-        $display("Ctiq-Stall            %5d",ctiq_stall     );
-        $display("InstBuff-Stall        %5d",instBuf_stall  ); 
-        $display("FreeList-Stall        %5d",freelist_stall );
-        $display("SMT-Stall             %5d",smt_stall      );
-        $display("Backend-Stall         %5d",backend_stall  );
-        $display("LDQ-Stall             %5d",ldq_stall      );
-        $display("STQ-Stall             %5d",stq_stall      );
-        $display("IQ-Stall              %5d",iq_stall       );
-        $display("ROB-Stall             %5d",rob_stall      );
+  $display("\n\nSimulation Complete\n");
+  // Before the simulator is terminated, print all the stats:
+  $display("Fetch1-Stall          %5d",fetch1_stall   );  
+  $display("Ctiq-Stall            %5d",ctiq_stall     );
+  $display("InstBuff-Stall        %5d",instBuf_stall  ); 
+  $display("FreeList-Stall        %5d",freelist_stall );
+  $display("SMT-Stall             %5d",smt_stall      );
+  $display("Backend-Stall         %5d",backend_stall  );
+  $display("LDQ-Stall             %5d",ldq_stall      );
+  $display("STQ-Stall             %5d",stq_stall      );
+  $display("IQ-Stall              %5d",iq_stall       );
+  $display("ROB-Stall             %5d",rob_stall      );
 
-        $display("stat_num_corr         %5d", stat_num_corr);
-        $display("stat_num_pred         %5d", stat_num_pred);
-        $display("stat_num_cond_corr    %5d", stat_num_cond_corr);
-        $display("stat_num_cond_pred    %5d", stat_num_cond_pred);
-        $display("stat_num_return_corr  %5d", stat_num_return_corr);
-        $display("stat_num_return_pred  %5d", stat_num_return_pred);
-        $display("");
+  $display("stat_num_corr         %5d", stat_num_corr);
+  $display("stat_num_pred         %5d", stat_num_pred);
+  $display("stat_num_cond_corr    %5d", stat_num_cond_corr);
+  $display("stat_num_cond_pred    %5d", stat_num_cond_pred);
+  $display("stat_num_return_corr  %5d", stat_num_return_corr);
+  $display("stat_num_return_pred  %5d", stat_num_return_pred);
+  $display("");
 
-        ib_avg    = ib_count/(CYCLE_COUNT-10.0);
-        fl_avg    = fl_count/(CYCLE_COUNT-10.0);
-        iq_avg    = iq_count/(CYCLE_COUNT-10.0);
-        ldq_avg   = ldq_count/(CYCLE_COUNT-10.0);
-        stq_avg   = stq_count/(CYCLE_COUNT-10.0);
-        al_avg    = al_count/(CYCLE_COUNT-10.0);
+  ib_avg    = ib_count/(CYCLE_COUNT-10.0);
+  fl_avg    = fl_count/(CYCLE_COUNT-10.0);
+  iq_avg    = iq_count/(CYCLE_COUNT-10.0);
+  ldq_avg   = ldq_count/(CYCLE_COUNT-10.0);
+  stq_avg   = stq_count/(CYCLE_COUNT-10.0);
+  al_avg    = al_count/(CYCLE_COUNT-10.0);
 
-        $write("IB-avg                 %2.2f\n", ib_avg); 
-        $write("FL-avg                 %2.2f\n", fl_avg); 
-        $write("IQ-avg                 %2.2f\n", iq_avg); 
-        $write("LDQ-avg                %2.2f\n", ldq_avg); 
-        $write("STQ-avg                %2.2f\n", stq_avg); 
-        $write("AL-avg                 %2.2f\n", al_avg); 
+  $write("IB-avg                 %2.2f\n", ib_avg); 
+  $write("FL-avg                 %2.2f\n", fl_avg); 
+  $write("IQ-avg                 %2.2f\n", iq_avg); 
+  $write("LDQ-avg                %2.2f\n", ldq_avg); 
+  $write("STQ-avg                %2.2f\n", stq_avg); 
+  $write("AL-avg                 %2.2f\n", al_avg); 
 
-        $display("IPC                    %2.2f",ipc                  );                   
-        $display("Cycle Count           %5d"  ,CYCLE_COUNT          );
-        $display("Commit Count          %5d"  ,COMMIT_COUNT         );           
-        $display("BTB-Miss              %5d"  ,btb_miss             );
-        $display("BTB-Miss-Rtn          %5d"  ,btb_miss_rtn         );
-        $display("Br-Count              %5d"  ,br_count             );
-        $display("Br-Mispredict         %5d"  ,br_mispredict_count  );
-        $display("Ld Count              %5d"  ,ld_count             );
-        $display("Ld Violation          %5d"  ,load_violation_count );
+  $display("IPC                    %2.2f",ipc                  );                   
+  $display("Cycle Count           %5d"  ,CYCLE_COUNT          );
+  $display("Commit Count          %5d"  ,COMMIT_COUNT         );           
+  $display("BTB-Miss              %5d"  ,btb_miss             );
+  $display("BTB-Miss-Rtn          %5d"  ,btb_miss_rtn         );
+  $display("Br-Count              %5d"  ,br_count             );
+  $display("Br-Mispredict         %5d"  ,br_mispredict_count  );
+  $display("Ld Count              %5d"  ,ld_count             );
+  $display("Ld Violation          %5d"  ,load_violation_count );
 
-        `ifdef DUMP_STATS
-          ib_avg    = ib_count/(CYCLE_COUNT-10.0);
-          fl_avg    = fl_count/(CYCLE_COUNT-10.0);
-          iq_avg    = iq_count/(CYCLE_COUNT-10.0);
-          ldq_avg   = ldq_count/(CYCLE_COUNT-10.0);
-          stq_avg   = stq_count/(CYCLE_COUNT-10.0);
-          al_avg    = al_count/(CYCLE_COUNT-10.0);
+`ifdef DUMP_STATS
+  ib_avg    = ib_count/(CYCLE_COUNT-10.0);
+  fl_avg    = fl_count/(CYCLE_COUNT-10.0);
+  iq_avg    = iq_count/(CYCLE_COUNT-10.0);
+  ldq_avg   = ldq_count/(CYCLE_COUNT-10.0);
+  stq_avg   = stq_count/(CYCLE_COUNT-10.0);
+  al_avg    = al_count/(CYCLE_COUNT-10.0);
 
-          $fwrite(fd_stats, "%d, ", CYCLE_COUNT); 
-          $fwrite(fd_stats, "%d, ", COMMIT_COUNT); 
+  $fwrite(fd_stats, "%d, ", CYCLE_COUNT); 
+  $fwrite(fd_stats, "%d, ", COMMIT_COUNT); 
 
-          $fwrite(fd_stats, "%2.3f, ", ib_avg); 
-          $fwrite(fd_stats, "%2.3f, ", fl_avg); 
-          $fwrite(fd_stats, "%2.3f, ", iq_avg); 
-          $fwrite(fd_stats, "%2.4f, ", ldq_avg); 
-          $fwrite(fd_stats, "%2.4f, ", stq_avg); 
-          $fwrite(fd_stats, "%2.3f, ", al_avg); 
+  $fwrite(fd_stats, "%2.3f, ", ib_avg); 
+  $fwrite(fd_stats, "%2.3f, ", fl_avg); 
+  $fwrite(fd_stats, "%2.3f, ", iq_avg); 
+  $fwrite(fd_stats, "%2.4f, ", ldq_avg); 
+  $fwrite(fd_stats, "%2.4f, ", stq_avg); 
+  $fwrite(fd_stats, "%2.3f, ", al_avg); 
 
-          $fwrite(fd_stats, "%d, ", fetch1_stall); 
-          $fwrite(fd_stats, "%d, ", ctiq_stall); 
-          $fwrite(fd_stats, "%d, ", instBuf_stall); 
-          $fwrite(fd_stats, "%d, ", freelist_stall); 
-          $fwrite(fd_stats, "%d, ", backend_stall); 
-          $fwrite(fd_stats, "%d, ", ldq_stall); 
-          $fwrite(fd_stats, "%d, ", stq_stall); 
-          $fwrite(fd_stats, "%d, ", iq_stall); 
-          $fwrite(fd_stats, "%d, ", rob_stall); 
+  $fwrite(fd_stats, "%d, ", fetch1_stall); 
+  $fwrite(fd_stats, "%d, ", ctiq_stall); 
+  $fwrite(fd_stats, "%d, ", instBuf_stall); 
+  $fwrite(fd_stats, "%d, ", freelist_stall); 
+  $fwrite(fd_stats, "%d, ", backend_stall); 
+  $fwrite(fd_stats, "%d, ", ldq_stall); 
+  $fwrite(fd_stats, "%d, ", stq_stall); 
+  $fwrite(fd_stats, "%d, ", iq_stall); 
+  $fwrite(fd_stats, "%d, ", rob_stall); 
 
-          $fwrite(fd_stats, "%d, ", btb_miss); 
-          $fwrite(fd_stats, "%d, ", btb_miss_rtn); 
-          $fwrite(fd_stats, "%d, ", br_count); 
-          $fwrite(fd_stats, "%d, ", br_mispredict_count); 
-          $fwrite(fd_stats, "%d, ", load_violation_count); 
+  $fwrite(fd_stats, "%d, ", btb_miss); 
+  $fwrite(fd_stats, "%d, ", btb_miss_rtn); 
+  $fwrite(fd_stats, "%d, ", br_count); 
+  $fwrite(fd_stats, "%d, ", br_mispredict_count); 
+  $fwrite(fd_stats, "%d, ", load_violation_count); 
 
-          $fwrite(fd_stats, "%d, ", stat_num_corr);
-          $fwrite(fd_stats, "%d, ", stat_num_pred);
-          $fwrite(fd_stats, "%d, ", stat_num_cond_corr);
-          $fwrite(fd_stats, "%d, ", stat_num_cond_pred);
-          $fwrite(fd_stats, "%d, ", stat_num_return_corr);
-          $fwrite(fd_stats, "%d, ", stat_num_return_pred);
+  $fwrite(fd_stats, "%d, ", stat_num_corr);
+  $fwrite(fd_stats, "%d, ", stat_num_pred);
+  $fwrite(fd_stats, "%d, ", stat_num_cond_corr);
+  $fwrite(fd_stats, "%d, ", stat_num_cond_pred);
+  $fwrite(fd_stats, "%d, ", stat_num_return_corr);
+  $fwrite(fd_stats, "%d, ", stat_num_return_pred);
 
-          $fwrite(fd_stats, "%d, ", commit_1); 
-          $fwrite(fd_stats, "%d, ", commit_2); 
-          $fwrite(fd_stats, "%d, ", commit_3); 
-          $fwrite(fd_stats, "%d\n", commit_4); 
-        `endif
-        
-        close_log_files();
+  $fwrite(fd_stats, "%d, ", commit_1); 
+  $fwrite(fd_stats, "%d, ", commit_2); 
+  $fwrite(fd_stats, "%d, ", commit_3); 
+  $fwrite(fd_stats, "%d\n", commit_4); 
+`endif
+  
+  close_log_files();
 
-        // Dump performance counters
-        `ifdef PERF_MON
-          read_perf_mon();
-        `endif  
+  // Dump performance counters
+`ifdef PERF_MON
+  read_perf_mon();
+`endif  
 
-        $display("");
-        $finish;
+  $display("");
+  $finish;
 endtask
 
 task take_interrupt();
   longint sr;
-  int irqs;
+  int     irqs;
   longint nextPC;
   longint exceptingPC;
 
@@ -143,19 +143,19 @@ task take_interrupt();
 
   //if (!irqs || !(sr & `SR_EI))
   if (coreTop.supregisterfile.interruptPending_o)
-  begin
-
-    // This is a priority decoder that finds the cause of the highest
-    // priority interrupt.
-    for (int i = 0; i < 64 ; i++)
     begin
-      if ((irqs >> i) & 1)
-      begin
-        take_trap((1 << ((sr & `SR_S64) ? 63 : 31)) + i,exceptingPC);
-        break;
-      end
+
+      // This is a priority decoder that finds the cause of the highest
+      // priority interrupt.
+      for (int i = 0; i < 64 ; i++)
+        begin
+          if ((irqs >> i) & 1)
+            begin
+              take_trap((1 << ((sr & `SR_S64) ? 63 : 31)) + i,exceptingPC);
+              break;
+            end
+        end
     end
-  end
   //return 1;
 
 endtask
@@ -177,12 +177,12 @@ task take_trap(longint trap_cause,longint trap_pc);
   sr = get_csr_from_rtl(`CSR_STATUS);
   // switch to supervisor, set previous supervisor bit, disable interrupts
   set_csr_in_rtl(`CSR_STATUS,(((sr & ~`SR_EI) | `SR_S) & ~`SR_PS & ~`SR_PEI) |
-                              ((sr & `SR_S) ? `SR_PS : 0) |
-                              ((sr & `SR_EI) ? `SR_PEI : 0));
+                 ((sr & `SR_S) ? `SR_PS : 0) |
+                 ((sr & `SR_EI) ? `SR_PEI : 0));
 
   set_pcr(`CSR_STATUS, (((sr & ~`SR_EI) | `SR_S) & ~`SR_PS & ~`SR_PEI) |
-                        ((sr & `SR_S) ? `SR_PS : 0) |
-                        ((sr & `SR_EI) ? `SR_PEI : 0));
+          ((sr & `SR_S) ? `SR_PS : 0) |
+          ((sr & `SR_EI) ? `SR_PEI : 0));
 
   //set_pcr(LOAD_RESERVATION, 64'hffffffffffffffff);
   set_csr_in_rtl(`CSR_CAUSE, trap_cause);
@@ -206,10 +206,10 @@ task take_trap(longint trap_cause,longint trap_pc);
   instRetired += 1;
   set_pcr(12'h506,get_pcr(12'h506)+1); // Increment inst count in DPI
   if(instRetired == INTERLEAVE || idleCycles == INTERLEAVE)
-  begin
-    instRetired = 0;
-    htif_tick(htifRet);
-  end
+    begin
+      instRetired = 0;
+      htif_tick(htifRet);
+    end
 
   //return get_csr_from_rtl(`CSR_EVEC);
 endtask
@@ -353,66 +353,66 @@ endtask
 
 task copyRF;
 
-    integer i;
-    logic [`SIZE_DATA-1:0] written_value;
-    reg rfCopyDone;
-    rfCopyDone = 0;
+  integer i;
+  logic [`SIZE_DATA-1:0] written_value;
+  reg                    rfCopyDone;
+  rfCopyDone = 0;
 
-    @(negedge clk)
+  @(negedge clk)
     begin
 `ifdef DYNAMIC_CONFIG          
-        for (i = 0; i < 32; i++)
+      for (i = 0; i < 32; i++)
         begin
-            coreTop.registerfile.PhyRegFile.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i];
-            //coreTop.registerfile.PhyRegFile_byte0.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][7:0];
-            //coreTop.registerfile.PhyRegFile_byte1.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][15:8];
-            //coreTop.registerfile.PhyRegFile_byte2.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][23:16];
-            //coreTop.registerfile.PhyRegFile_byte3.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][31:24];
-            //coreTop.registerfile.PhyRegFile_byte4.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][39:32];
-            //coreTop.registerfile.PhyRegFile_byte5.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][47:40];
-            //coreTop.registerfile.PhyRegFile_byte6.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][55:48];
-            //coreTop.registerfile.PhyRegFile_byte7.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][63:56];
+          coreTop.registerfile.PhyRegFile.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i];
+          //coreTop.registerfile.PhyRegFile_byte0.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][7:0];
+          //coreTop.registerfile.PhyRegFile_byte1.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][15:8];
+          //coreTop.registerfile.PhyRegFile_byte2.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][23:16];
+          //coreTop.registerfile.PhyRegFile_byte3.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][31:24];
+          //coreTop.registerfile.PhyRegFile_byte4.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][39:32];
+          //coreTop.registerfile.PhyRegFile_byte5.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][47:40];
+          //coreTop.registerfile.PhyRegFile_byte6.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][55:48];
+          //coreTop.registerfile.PhyRegFile_byte7.ram_partitioned_no_decode.INST_LOOP[0].ram_instance_no_decode.ram[i] = LOGICAL_REG[i][63:56];
         end
-        for (i = 32; i < `SIZE_RMT; i++)
+      for (i = 32; i < `SIZE_RMT; i++)
         begin
-            coreTop.registerfile.PhyRegFile.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i];
-            //coreTop.registerfile.PhyRegFile_byte0.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][7:0];
-            //coreTop.registerfile.PhyRegFile_byte1.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][15:8];
-            //coreTop.registerfile.PhyRegFile_byte2.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][23:16];
-            //coreTop.registerfile.PhyRegFile_byte3.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][31:24];
-            //coreTop.registerfile.PhyRegFile_byte4.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][39:32];
-            //coreTop.registerfile.PhyRegFile_byte5.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][47:40];
-            //coreTop.registerfile.PhyRegFile_byte6.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][55:48];
-            //coreTop.registerfile.PhyRegFile_byte7.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][63:56];
+          coreTop.registerfile.PhyRegFile.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i];
+          //coreTop.registerfile.PhyRegFile_byte0.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][7:0];
+          //coreTop.registerfile.PhyRegFile_byte1.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][15:8];
+          //coreTop.registerfile.PhyRegFile_byte2.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][23:16];
+          //coreTop.registerfile.PhyRegFile_byte3.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][31:24];
+          //coreTop.registerfile.PhyRegFile_byte4.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][39:32];
+          //coreTop.registerfile.PhyRegFile_byte5.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][47:40];
+          //coreTop.registerfile.PhyRegFile_byte6.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][55:48];
+          //coreTop.registerfile.PhyRegFile_byte7.ram_partitioned_no_decode.INST_LOOP[1].ram_instance_no_decode.ram[i-32] = LOGICAL_REG[i][63:56];
         end
 `else
-        for (i = 0; i < `SIZE_RMT; i++)
+      for (i = 0; i < `SIZE_RMT; i++)
         begin
-            coreTop.registerfile.PhyRegFile.ram[i] = LOGICAL_REG[i];
-            written_value = coreTop.registerfile.PhyRegFile.ram[i];
-            //coreTop.registerfile.PhyRegFile_byte0.ram[i] = LOGICAL_REG[i][7:0];
-            //coreTop.registerfile.PhyRegFile_byte1.ram[i] = LOGICAL_REG[i][15:8];
-            //coreTop.registerfile.PhyRegFile_byte2.ram[i] = LOGICAL_REG[i][23:16];
-            //coreTop.registerfile.PhyRegFile_byte3.ram[i] = LOGICAL_REG[i][31:24];
-            //coreTop.registerfile.PhyRegFile_byte4.ram[i] = LOGICAL_REG[i][39:32];
-            //coreTop.registerfile.PhyRegFile_byte5.ram[i] = LOGICAL_REG[i][47:40];
-            //coreTop.registerfile.PhyRegFile_byte6.ram[i] = LOGICAL_REG[i][55:48];
-            //coreTop.registerfile.PhyRegFile_byte7.ram[i] = LOGICAL_REG[i][63:56];
+          coreTop.registerfile.PhyRegFile.ram[i] = LOGICAL_REG[i];
+          written_value = coreTop.registerfile.PhyRegFile.ram[i];
+          //coreTop.registerfile.PhyRegFile_byte0.ram[i] = LOGICAL_REG[i][7:0];
+          //coreTop.registerfile.PhyRegFile_byte1.ram[i] = LOGICAL_REG[i][15:8];
+          //coreTop.registerfile.PhyRegFile_byte2.ram[i] = LOGICAL_REG[i][23:16];
+          //coreTop.registerfile.PhyRegFile_byte3.ram[i] = LOGICAL_REG[i][31:24];
+          //coreTop.registerfile.PhyRegFile_byte4.ram[i] = LOGICAL_REG[i][39:32];
+          //coreTop.registerfile.PhyRegFile_byte5.ram[i] = LOGICAL_REG[i][47:40];
+          //coreTop.registerfile.PhyRegFile_byte6.ram[i] = LOGICAL_REG[i][55:48];
+          //coreTop.registerfile.PhyRegFile_byte7.ram[i] = LOGICAL_REG[i][63:56];
 
-            //written_value = {coreTop.registerfile.PhyRegFile_byte7.ram[i],
-            //                 coreTop.registerfile.PhyRegFile_byte6.ram[i],
-            //                 coreTop.registerfile.PhyRegFile_byte5.ram[i],
-            //                 coreTop.registerfile.PhyRegFile_byte4.ram[i],
-            //                 coreTop.registerfile.PhyRegFile_byte3.ram[i],
-            //                 coreTop.registerfile.PhyRegFile_byte2.ram[i],
-            //                 coreTop.registerfile.PhyRegFile_byte1.ram[i],
-            //                 coreTop.registerfile.PhyRegFile_byte0.ram[i]};
-            if (loggingOn)
-              $display("Copied to physical register %d -> [%16x] -> (%16x)", i, LOGICAL_REG[i], written_value);
+          //written_value = {coreTop.registerfile.PhyRegFile_byte7.ram[i],
+          //                 coreTop.registerfile.PhyRegFile_byte6.ram[i],
+          //                 coreTop.registerfile.PhyRegFile_byte5.ram[i],
+          //                 coreTop.registerfile.PhyRegFile_byte4.ram[i],
+          //                 coreTop.registerfile.PhyRegFile_byte3.ram[i],
+          //                 coreTop.registerfile.PhyRegFile_byte2.ram[i],
+          //                 coreTop.registerfile.PhyRegFile_byte1.ram[i],
+          //                 coreTop.registerfile.PhyRegFile_byte0.ram[i]};
+          if (loggingOn)
+            $display("Copied to physical register %d -> [%16x] -> (%16x)", i, LOGICAL_REG[i], written_value);
         end
 `endif
 
-    rfCopyDone = 1;
+      rfCopyDone = 1;
     end
 
   wait(rfCopyDone == 1);
@@ -424,38 +424,38 @@ task copyCSR;
   csrCopyDone = 0;
 
   @(negedge clk)
-  begin
-    set_csr_in_rtl(`CSR_FFLAGS   , get_pcr(`CSR_FFLAGS   )); 
-    set_csr_in_rtl(`CSR_FRM      , get_pcr(`CSR_FRM      ));
-    set_csr_in_rtl(`CSR_FCSR     , get_pcr(`CSR_FCSR     ));
-    //set_csr_in_rtl(`CSR_STATS    , get_pcr(`CSR_STATS    ));
-    set_csr_in_rtl(`CSR_SUP0     , get_pcr(`CSR_SUP0     ));
-    set_csr_in_rtl(`CSR_SUP1     , get_pcr(`CSR_SUP1     ));
-    set_csr_in_rtl(`CSR_EPC      , get_pcr(`CSR_EPC      ));
-    set_csr_in_rtl(`CSR_BADVADDR , get_pcr(`CSR_BADVADDR ));
-    set_csr_in_rtl(`CSR_PTBR     , get_pcr(`CSR_PTBR     ));
-    set_csr_in_rtl(`CSR_ASID     , get_pcr(`CSR_ASID     ));
-    set_csr_in_rtl(`CSR_COUNT    , get_pcr(`CSR_COUNT    ));
-    set_csr_in_rtl(`CSR_COMPARE  , get_pcr(`CSR_COMPARE  ));
-    set_csr_in_rtl(`CSR_EVEC     , get_pcr(`CSR_EVEC     ));
-    set_csr_in_rtl(`CSR_CAUSE    , get_pcr(`CSR_CAUSE    ));
-    set_csr_in_rtl(`CSR_STATUS   , get_pcr(`CSR_STATUS   ));
-    set_csr_in_rtl(`CSR_HARTID   , get_pcr(`CSR_HARTID   ));
-    set_csr_in_rtl(`CSR_IMPL     , get_pcr(`CSR_IMPL     ));
-    set_csr_in_rtl(`CSR_FATC     , get_pcr(`CSR_FATC     ));
-    set_csr_in_rtl(`CSR_SEND_IPI , get_pcr(`CSR_SEND_IPI ));
-    set_csr_in_rtl(`CSR_CLEAR_IPI, get_pcr(`CSR_CLEAR_IPI));
-    //set_csr_in_rtl(`CSR_RESET    , get_pcr(`CSR_RESET    ));
-    set_csr_in_rtl(`CSR_TOHOST   , get_pcr(`CSR_TOHOST   ));
-    set_csr_in_rtl(`CSR_FROMHOST , get_pcr(`CSR_FROMHOST ));
-    set_csr_in_rtl(`CSR_CYCLE    , get_pcr(`CSR_CYCLE    ));
-    set_csr_in_rtl(`CSR_TIME     , get_pcr(`CSR_TIME     ));
-    set_csr_in_rtl(`CSR_INSTRET  , get_pcr(`CSR_INSTRET  ));
-    //set_csr_in_rtl(`CSR_CYCLEH   , get_pcr(`CSR_CYCLEH   ));
-    //set_csr_in_rtl(`CSR_TIMEH    , get_pcr(`CSR_TIMEH    ));
-    //set_csr_in_rtl(`CSR_INSTRETH , get_pcr(`CSR_INSTRETH ));
-    csrCopyDone = 1;
-  end
+    begin
+      set_csr_in_rtl(`CSR_FFLAGS   , get_pcr(`CSR_FFLAGS   )); 
+      set_csr_in_rtl(`CSR_FRM      , get_pcr(`CSR_FRM      ));
+      set_csr_in_rtl(`CSR_FCSR     , get_pcr(`CSR_FCSR     ));
+      //set_csr_in_rtl(`CSR_STATS    , get_pcr(`CSR_STATS    ));
+      set_csr_in_rtl(`CSR_SUP0     , get_pcr(`CSR_SUP0     ));
+      set_csr_in_rtl(`CSR_SUP1     , get_pcr(`CSR_SUP1     ));
+      set_csr_in_rtl(`CSR_EPC      , get_pcr(`CSR_EPC      ));
+      set_csr_in_rtl(`CSR_BADVADDR , get_pcr(`CSR_BADVADDR ));
+      set_csr_in_rtl(`CSR_PTBR     , get_pcr(`CSR_PTBR     ));
+      set_csr_in_rtl(`CSR_ASID     , get_pcr(`CSR_ASID     ));
+      set_csr_in_rtl(`CSR_COUNT    , get_pcr(`CSR_COUNT    ));
+      set_csr_in_rtl(`CSR_COMPARE  , get_pcr(`CSR_COMPARE  ));
+      set_csr_in_rtl(`CSR_EVEC     , get_pcr(`CSR_EVEC     ));
+      set_csr_in_rtl(`CSR_CAUSE    , get_pcr(`CSR_CAUSE    ));
+      set_csr_in_rtl(`CSR_STATUS   , get_pcr(`CSR_STATUS   ));
+      set_csr_in_rtl(`CSR_HARTID   , get_pcr(`CSR_HARTID   ));
+      set_csr_in_rtl(`CSR_IMPL     , get_pcr(`CSR_IMPL     ));
+      set_csr_in_rtl(`CSR_FATC     , get_pcr(`CSR_FATC     ));
+      set_csr_in_rtl(`CSR_SEND_IPI , get_pcr(`CSR_SEND_IPI ));
+      set_csr_in_rtl(`CSR_CLEAR_IPI, get_pcr(`CSR_CLEAR_IPI));
+      //set_csr_in_rtl(`CSR_RESET    , get_pcr(`CSR_RESET    ));
+      set_csr_in_rtl(`CSR_TOHOST   , get_pcr(`CSR_TOHOST   ));
+      set_csr_in_rtl(`CSR_FROMHOST , get_pcr(`CSR_FROMHOST ));
+      set_csr_in_rtl(`CSR_CYCLE    , get_pcr(`CSR_CYCLE    ));
+      set_csr_in_rtl(`CSR_TIME     , get_pcr(`CSR_TIME     ));
+      set_csr_in_rtl(`CSR_INSTRET  , get_pcr(`CSR_INSTRET  ));
+      //set_csr_in_rtl(`CSR_CYCLEH   , get_pcr(`CSR_CYCLEH   ));
+      //set_csr_in_rtl(`CSR_TIMEH    , get_pcr(`CSR_TIMEH    ));
+      //set_csr_in_rtl(`CSR_INSTRETH , get_pcr(`CSR_INSTRETH ));
+      csrCopyDone = 1;
+    end
   
   wait(csrCopyDone == 1);
 endtask
@@ -496,9 +496,9 @@ function reg check_csr_with_dpi;
   ////pass = pass & get_csr_from_rtl(`CSR_INSTRETH )  ==   get_pcr(`CSR_INSTRETH );
   
   if(~pass)
-  begin
-    dump_csrs();
-  end
+    begin
+      dump_csrs();
+    end
   check_csr_with_dpi = pass;
 endfunction
 
@@ -894,118 +894,118 @@ task print_heartbeat;
 
 
   if(resetDone & coreResetDone)
-  begin
-    if ((CYCLE_COUNT % STAT_PRINT_INTERVAL) == 0)
     begin
-        ipc = $itor(COMMIT_COUNT)/$itor(CYCLE_COUNT);
-        if (((COMMIT_COUNT - last_commit_cnt) == 0) & resetDone & coreResetDone)
+      if ((CYCLE_COUNT % STAT_PRINT_INTERVAL) == 0)
         begin
-            $display("Cycle Count:%d Commit Count:%d IPC:%2.2f BTB-Miss:%d BTB-Miss-Rtn:%d  Br-Count:%d Br-Mispredict:%d Violation: %0d",
-                     CYCLE_COUNT,
-                     COMMIT_COUNT,
-                     ipc,
-                     btb_miss,
-                     btb_miss_rtn,
-                     br_count,
-                     br_mispredict_count,
-                     load_violation_count);
+          ipc = $itor(COMMIT_COUNT)/$itor(CYCLE_COUNT);
+          if (((COMMIT_COUNT - last_commit_cnt) == 0) & resetDone & coreResetDone)
+            begin
+              $display("Cycle Count:%d Commit Count:%d IPC:%2.2f BTB-Miss:%d BTB-Miss-Rtn:%d  Br-Count:%d Br-Mispredict:%d Violation: %0d",
+                       CYCLE_COUNT,
+                       COMMIT_COUNT,
+                       ipc,
+                       btb_miss,
+                       btb_miss_rtn,
+                       br_count,
+                       br_mispredict_count,
+                       load_violation_count);
 
-            $display("ERROR: instruction committing has stalled (Cycle: %0d, Commit: %0d, PC: %x", CYCLE_COUNT, COMMIT_COUNT, commitPC[0] );
-            // Dump performance counters
-            `ifdef PERF_MON
+              $display("ERROR: instruction committing has stalled (Cycle: %0d, Commit: %0d, PC: %x", CYCLE_COUNT, COMMIT_COUNT, commitPC[0] );
+              // Dump performance counters
+`ifdef PERF_MON
               read_perf_mon();
-            `endif  
+`endif  
 
-            $finish;
-        end
+              $finish;
+            end
 
-        $display("Cycle: %d Commit: %d IPC:%2.2f BTB-Miss: %0d  BTB-Miss-Rtn: %0d  Br-Count: %0d  Br-Mispredict: %0d Violation: %0d",
-                 CYCLE_COUNT,
-                 COMMIT_COUNT,
-                 ipc,
-                 btb_miss,
-                 btb_miss_rtn,
-                 br_count,
-                 br_mispredict_count,
-                 load_violation_count);
-
-        
-        `ifdef DUMP_STATS
-            ib_avg    = ib_count/(CYCLE_COUNT-10.0);
-            fl_avg    = fl_count/(CYCLE_COUNT-10.0);
-            iq_avg    = iq_count/(CYCLE_COUNT-10.0);
-            ldq_avg   = ldq_count/(CYCLE_COUNT-10.0);
-            stq_avg   = stq_count/(CYCLE_COUNT-10.0);
-            al_avg    = al_count/(CYCLE_COUNT-10.0);
-    
-            $fwrite(fd_stats, "%d, ", CYCLE_COUNT); 
-            $fwrite(fd_stats, "%d, ", COMMIT_COUNT); 
-    
-            $fwrite(fd_stats, "%2.3f, ", ib_avg); 
-            $fwrite(fd_stats, "%2.3f, ", fl_avg); 
-            $fwrite(fd_stats, "%2.3f, ", iq_avg); 
-            $fwrite(fd_stats, "%2.4f, ", ldq_avg); 
-            $fwrite(fd_stats, "%2.4f, ", stq_avg); 
-            $fwrite(fd_stats, "%2.3f, ", al_avg); 
-    
-            $fwrite(fd_stats, "%d, ", fetch1_stall); 
-            $fwrite(fd_stats, "%d, ", ctiq_stall); 
-            $fwrite(fd_stats, "%d, ", instBuf_stall); 
-            $fwrite(fd_stats, "%d, ", freelist_stall); 
-            $fwrite(fd_stats, "%d, ", backend_stall); 
-            $fwrite(fd_stats, "%d, ", ldq_stall); 
-            $fwrite(fd_stats, "%d, ", stq_stall); 
-            $fwrite(fd_stats, "%d, ", iq_stall); 
-            $fwrite(fd_stats, "%d, ", rob_stall); 
-    
-            $fwrite(fd_stats, "%d, ", btb_miss); 
-            $fwrite(fd_stats, "%d, ", btb_miss_rtn); 
-            $fwrite(fd_stats, "%d, ", br_count); 
-            $fwrite(fd_stats, "%d, ", br_mispredict_count); 
-            $fwrite(fd_stats, "%d, ", load_violation_count); 
-    
-            $fwrite(fd_stats, "%d, ", stat_num_corr);
-            $fwrite(fd_stats, "%d, ", stat_num_pred);
-            $fwrite(fd_stats, "%d, ", stat_num_cond_corr);
-            $fwrite(fd_stats, "%d, ", stat_num_cond_pred);
-            $fwrite(fd_stats, "%d, ", stat_num_return_corr);
-            $fwrite(fd_stats, "%d, ", stat_num_return_pred);
-    
-            $fwrite(fd_stats, "%d, ", commit_1); 
-            $fwrite(fd_stats, "%d, ", commit_2); 
-            $fwrite(fd_stats, "%d, ", commit_3); 
-            $fwrite(fd_stats, "%d\n", commit_4); 
-        `endif
-
-        last_commit_cnt = COMMIT_COUNT;
-    end
-
-
-    if(loggingOn)
-    begin
-      //if (((COMMIT_COUNT - prev_commit_point) >= IPC_PRINT_INTERVAL) & (CYCLE_COUNT > 0) & (COMMIT_COUNT != prev_commit_point))
-      if (((COMMIT_COUNT - prev_commit_point) >= IPC_PRINT_INTERVAL) & (CYCLE_COUNT > 0))
-      begin
-          phase_mispredicts = br_mispredict_count - prev_br_misp_point; 
-          phase_mispred = 100*$itor(phase_mispredicts)/$itor(br_count - prev_branch_point);
-          phase_mpki    = $itor(phase_mispredicts)/$itor(IPC_PRINT_INTERVAL/1000);
-          phase_ipc = $itor(IPC_PRINT_INTERVAL)/$itor(CYCLE_COUNT-last_cycle_cnt);
-
-          $display("Cycle: %d Commit: %d PC: 0x%x Phase IPC:%2.2f Mispred:%2.2f MPKI:%2.2f",
+          $display("Cycle: %d Commit: %d IPC:%2.2f BTB-Miss: %0d  BTB-Miss-Rtn: %0d  Br-Count: %0d  Br-Mispredict: %0d Violation: %0d",
                    CYCLE_COUNT,
                    COMMIT_COUNT,
-                   commitPC[0],
-                   phase_ipc,
-                   phase_mispred,
-                   phase_mpki);
+                   ipc,
+                   btb_miss,
+                   btb_miss_rtn,
+                   br_count,
+                   br_mispredict_count,
+                   load_violation_count);
 
-          last_cycle_cnt      = CYCLE_COUNT;
-          prev_commit_point   = prev_commit_point + IPC_PRINT_INTERVAL;
-          prev_branch_point   = br_count;
-          prev_br_misp_point  = br_mispredict_count;
-      end
-    end
-  end //if reset Done
+          
+`ifdef DUMP_STATS
+          ib_avg    = ib_count/(CYCLE_COUNT-10.0);
+          fl_avg    = fl_count/(CYCLE_COUNT-10.0);
+          iq_avg    = iq_count/(CYCLE_COUNT-10.0);
+          ldq_avg   = ldq_count/(CYCLE_COUNT-10.0);
+          stq_avg   = stq_count/(CYCLE_COUNT-10.0);
+          al_avg    = al_count/(CYCLE_COUNT-10.0);
+          
+          $fwrite(fd_stats, "%d, ", CYCLE_COUNT); 
+          $fwrite(fd_stats, "%d, ", COMMIT_COUNT); 
+          
+          $fwrite(fd_stats, "%2.3f, ", ib_avg); 
+          $fwrite(fd_stats, "%2.3f, ", fl_avg); 
+          $fwrite(fd_stats, "%2.3f, ", iq_avg); 
+          $fwrite(fd_stats, "%2.4f, ", ldq_avg); 
+          $fwrite(fd_stats, "%2.4f, ", stq_avg); 
+          $fwrite(fd_stats, "%2.3f, ", al_avg); 
+          
+          $fwrite(fd_stats, "%d, ", fetch1_stall); 
+          $fwrite(fd_stats, "%d, ", ctiq_stall); 
+          $fwrite(fd_stats, "%d, ", instBuf_stall); 
+          $fwrite(fd_stats, "%d, ", freelist_stall); 
+          $fwrite(fd_stats, "%d, ", backend_stall); 
+          $fwrite(fd_stats, "%d, ", ldq_stall); 
+          $fwrite(fd_stats, "%d, ", stq_stall); 
+          $fwrite(fd_stats, "%d, ", iq_stall); 
+          $fwrite(fd_stats, "%d, ", rob_stall); 
+          
+          $fwrite(fd_stats, "%d, ", btb_miss); 
+          $fwrite(fd_stats, "%d, ", btb_miss_rtn); 
+          $fwrite(fd_stats, "%d, ", br_count); 
+          $fwrite(fd_stats, "%d, ", br_mispredict_count); 
+          $fwrite(fd_stats, "%d, ", load_violation_count); 
+          
+          $fwrite(fd_stats, "%d, ", stat_num_corr);
+          $fwrite(fd_stats, "%d, ", stat_num_pred);
+          $fwrite(fd_stats, "%d, ", stat_num_cond_corr);
+          $fwrite(fd_stats, "%d, ", stat_num_cond_pred);
+          $fwrite(fd_stats, "%d, ", stat_num_return_corr);
+          $fwrite(fd_stats, "%d, ", stat_num_return_pred);
+          
+          $fwrite(fd_stats, "%d, ", commit_1); 
+          $fwrite(fd_stats, "%d, ", commit_2); 
+          $fwrite(fd_stats, "%d, ", commit_3); 
+          $fwrite(fd_stats, "%d\n", commit_4); 
+`endif
+
+          last_commit_cnt = COMMIT_COUNT;
+        end
+
+
+      if(loggingOn)
+        begin
+          //if (((COMMIT_COUNT - prev_commit_point) >= IPC_PRINT_INTERVAL) & (CYCLE_COUNT > 0) & (COMMIT_COUNT != prev_commit_point))
+          if (((COMMIT_COUNT - prev_commit_point) >= IPC_PRINT_INTERVAL) & (CYCLE_COUNT > 0))
+            begin
+              phase_mispredicts = br_mispredict_count - prev_br_misp_point; 
+              phase_mispred = 100*$itor(phase_mispredicts)/$itor(br_count - prev_branch_point);
+              phase_mpki    = $itor(phase_mispredicts)/$itor(IPC_PRINT_INTERVAL/1000);
+              phase_ipc = $itor(IPC_PRINT_INTERVAL)/$itor(CYCLE_COUNT-last_cycle_cnt);
+
+              $display("Cycle: %d Commit: %d PC: 0x%x Phase IPC:%2.2f Mispred:%2.2f MPKI:%2.2f",
+                       CYCLE_COUNT,
+                       COMMIT_COUNT,
+                       commitPC[0],
+                       phase_ipc,
+                       phase_mispred,
+                       phase_mpki);
+
+              last_cycle_cnt      = CYCLE_COUNT;
+              prev_commit_point   = prev_commit_point + IPC_PRINT_INTERVAL;
+              prev_branch_point   = br_count;
+              prev_br_misp_point  = br_mispredict_count;
+            end
+        end
+    end //if reset Done
 endtask    
 
 exeFlgs                         ctrlExeFlags;
@@ -1015,31 +1015,31 @@ fuPkt                           exePacket       [0:`ISSUE_WIDTH-1];
 /* Following maintains all the performance related counters. */
 task update_stats;
   
-   int i;
+  int i;
 
-   exePacket[0]       = coreTop.exePipe0.execute.exePacket_i;
-   wbPacket[0]        = coreTop.lsu.wbPacket_o;  // Writeback for MEM happens from LSU
+  exePacket[0]       = coreTop.exePipe0.execute.exePacket_i;
+  wbPacket[0]        = coreTop.lsu.wbPacket_o;  // Writeback for MEM happens from LSU
 
-  `ifdef ISSUE_TWO_WIDE
-   exePacket[1]       = coreTop.exePipe1.execute.exePacket_i;
-   wbPacket[1]        = coreTop.exePipe1.execute.wbPacket_o;
-   `endif
+`ifdef ISSUE_TWO_WIDE
+  exePacket[1]       = coreTop.exePipe1.execute.exePacket_i;
+  wbPacket[1]        = coreTop.exePipe1.execute.wbPacket_o;
+`endif
 
-  `ifdef ISSUE_THREE_WIDE
-   exePacket[2]       = coreTop.exePipe2.execute.exePacket_i;
-   wbPacket[2]        = coreTop.exePipe2.execute.wbPacket_o;
-   `endif
+`ifdef ISSUE_THREE_WIDE
+  exePacket[2]       = coreTop.exePipe2.execute.exePacket_i;
+  wbPacket[2]        = coreTop.exePipe2.execute.wbPacket_o;
+`endif
 
-  `ifdef ISSUE_FOUR_WIDE
-   exePacket[3]       = coreTop.exePipe3.execute.exePacket_i;
-   wbPacket[3]        = coreTop.exePipe3.execute.wbPacket_o;
-  `endif
+`ifdef ISSUE_FOUR_WIDE
+  exePacket[3]       = coreTop.exePipe3.execute.exePacket_i;
+  wbPacket[3]        = coreTop.exePipe3.execute.wbPacket_o;
+`endif
   
-   ctrlExeFlags       = wbPacket[1].flags;
+  ctrlExeFlags       = wbPacket[1].flags;
   
   
   if (resetDone & coreResetDone)
-  begin
+    begin
       CYCLE_COUNT       = CYCLE_COUNT    + 1;
       COMMIT_COUNT      = COMMIT_COUNT   + totalCommit;
       fetch1_stall      = fetch1_stall   + coreTop.fs1.stall_i;
@@ -1047,31 +1047,31 @@ task update_stats;
       instBuf_stall     = instBuf_stall  + coreTop.instBuf.instBufferFull_o;
       freelist_stall    = freelist_stall + coreTop.rename.freeListEmpty_o;
       backend_stall     = backend_stall  + coreTop.dispatch.backEndFull_o;
-    `ifdef PERF_MON
+`ifdef PERF_MON
       ldq_stall         = ldq_stall      + coreTop.dispatch.loadStall_o;
       stq_stall         = stq_stall      + coreTop.dispatch.storeStall_o;
       iq_stall          = iq_stall       + coreTop.dispatch.iqStall_o;
       rob_stall         = rob_stall      + coreTop.dispatch.alStall_o;
-    `endif
-  
+`endif
+      
       btb_miss          = btb_miss       + (~coreTop.fs1.stall_i & coreTop.fs1.fs2RecoverFlag_i);
       btb_miss_rtn      = btb_miss_rtn   + (~coreTop.fs1.stall_i &
-                                             coreTop.fs1.fs2MissedReturn_i &
-                                             coreTop.fs1.fs2RecoverFlag_i);
+                                            coreTop.fs1.fs2MissedReturn_i &
+                                            coreTop.fs1.fs2RecoverFlag_i);
       for (i = 0; i < `COMMIT_WIDTH; i++)
-      begin
+        begin
           br_count        = br_count       + ((totalCommit >= (i+1)) & ctrlAl[i][5]);
           ld_count        = ld_count       + coreTop.activeList.commitLoad_o[i];
-      end
-  
+        end
+      
       br_mispredict_count =  br_mispredict_count + ctrlAl[i][0] && commitReady[i] & ~coreTop.activeList.stallStCommit_i;
-  
+      
       load_violation_count = load_violation_count + violateBit[0] && commitReady[i] & ~coreTop.activeList.stallStCommit_i;
-  
-    `ifdef PERF_MON
+      
+`ifdef PERF_MON
       ib_count  = ib_count  + coreTop.instBuf.instCount_o;
       fl_count  = fl_count  + coreTop.rename.specfreelist.freeListCnt_o;
-    `endif
+`endif
       iq_count  = iq_count  + coreTop.issueq.cntInstIssueQ_o;
       ldq_count = ldq_count + coreTop.lsu.ldqCount_o;
       stq_count = stq_count + coreTop.lsu.stqCount_o;
@@ -1085,34 +1085,34 @@ task update_stats;
 
       // cti stats ////////////////////////////////
       if (exePacket[1].valid)
-      begin
+        begin
           stat_num_pred++;
           
           if (!ctrlExeFlags.mispredict)
-              stat_num_corr++;
+            stat_num_corr++;
           else
-              stat_num_recover++;
-      
+            stat_num_recover++;
+          
           if (exePacket[1].ctrlType == `COND_BRANCH)
-          begin
+            begin
               stat_num_cond_pred++;
-      
+              
               if (!ctrlExeFlags.mispredict)
-                  stat_num_cond_corr++;
-          end
+                stat_num_cond_corr++;
+            end
           
           if (exePacket[1].ctrlType == `RETURN)
-          begin
+            begin
               stat_num_return_pred++;
-      
+              
               if (!ctrlExeFlags.mispredict)
-                  stat_num_return_corr++;
-          end
-      end
+                stat_num_return_corr++;
+            end
+        end
     end
 
-    if (COMMIT_COUNT >= SIM_STOP_COMMIT_COUNT)
-      end_rtl_simulation();
+  if (COMMIT_COUNT >= SIM_STOP_COMMIT_COUNT)
+    end_rtl_simulation();
 
 endtask
 
