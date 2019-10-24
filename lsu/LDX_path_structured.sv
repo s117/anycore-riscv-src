@@ -1,3 +1,5 @@
+`include "global_header.svh"
+
 /*************************NORTH CAROLINA STATE UNIVERSITY***********************
  #
  #                              AnyCore Project
