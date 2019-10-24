@@ -18,8 +18,6 @@
  # AnyCore is distributed under the BSD license.
  *******************************************************************************/
 
-`include "CommonConfig.svh"
-
 `timescale 1ns/1ps
 
 //`define PRINT_EN
