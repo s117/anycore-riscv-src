@@ -204,7 +204,7 @@ task take_trap(longint trap_cause,longint trap_pc);
   // from the debug buffer.
   checkPassed = checkInstruction(CYCLE_COUNT,COMMIT_COUNT,trap_pc,0,0,0);
   instRetired += 1;
-  set_pcr(12'h506,get_pcr(12'h506)+1); // Increment inst count in DPI
+  set_pcr(`CSR_COUNT,get_pcr(`CSR_COUNT)+1); // Increment inst count in DPI
   if(instRetired == INTERLEAVE || idleCycles == INTERLEAVE)
     begin
       instRetired = 0;
